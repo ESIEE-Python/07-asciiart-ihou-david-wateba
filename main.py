@@ -1,11 +1,18 @@
+"""retourne la liste de tuples encodant une chaîne de caractères passée en argument 
+selon des algorithmes itératif et récursif
+"""
+import sys
+sys.setrecursionlimit(2000)
+
 #### Imports et définition des variables globales
 
 
 #### Fonctions secondaires
 
 
-def artcode_i(s):
-    """retourne la liste de tuples encodant une chaîne de caractères passée en argument selon un algorithme itératif
+def artcode_i(s:tuple)->list:
+    """retourne la liste de tuples encodant une chaîne de caractères passée en argument 
+    selon un algorithme itératif
 
     Args:
         s (str): la chaîne de caractères à encoder
@@ -13,14 +20,26 @@ def artcode_i(s):
     Returns:
         list: la liste des tuples (caractère, nombre d'occurences)
     """
-    
-    # votre code ici
 
-    return [ ]
 
+    if not s:
+        return []
+
+    result = []
+    count = 1
+
+    for i in range(1, len(s)):
+        if s[i] == s[i - 1]:
+            count += 1
+        else:
+            result.append((s[i - 1], count))
+            count = 1
+    result.append((s[-1], count))
+    return result
 
 def artcode_r(s):
-    """retourne la liste de tuples encodant une chaîne de caractères passée en argument selon un algorithme récursif
+    """retourne la liste de tuples encodant une chaîne de caractères passée en argument 
+    selon un algorithme récursif
 
     Args:
         s (str): la chaîne de caractères à encoder
@@ -28,20 +47,21 @@ def artcode_r(s):
     Returns:
         list: la liste des tuples (caractère, nombre d'occurences)
     """
-    
-    # votre code ici
 
-    # cas de base
-    # recherche nombre de caractères identiques au premier
-    # appel récursif
+    if not s:
+        return []
+    count = 1
+    while count < len(s) and s[count] == s[0]:
+        count += 1
+    return [(s[0], count)] + artcode_r(s[count:])
 
-    return []
-    
 
 #### Fonction principale
 
 
 def main():
+    """Fonction principale du code
+    """
     print(artcode_i('MMMMaaacXolloMM'))
     print(artcode_r('MMMMaaacXolloMM'))
 
